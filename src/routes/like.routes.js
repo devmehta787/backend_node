@@ -4,7 +4,7 @@ import {
     toggleCommentLike,
     togglePostLike,
     toggleVideoLike
-} from "../controllers/like.controller"
+} from "../controllers/like.controller.js"
 import { verifyJWT } from "../middlewares/auth.middleware.js"
 
 

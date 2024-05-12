@@ -46,4 +46,4 @@ const videoSchema = new Schema(
 // calculate aggreagte video playback count using mongoose aggregate paginnate
 videoSchema.plugin(mongooseAggregatePaginate)
 
-export default mongoose.model('Video', videoSchema);
+export const Video = mongoose.model('Video', videoSchema)
