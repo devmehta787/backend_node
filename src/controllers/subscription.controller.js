@@ -1,4 +1,4 @@
-import mongoose, { isValidObjectId } from "mongoose"
+import { isValidObjectId } from "mongoose"
 import { User } from "../models/users.models.js"
 import { Subscription } from "../models/subscription.models.js"
 import { asyncHandler } from "../utils/asyncHandler.js"
