@@ -10,8 +10,8 @@ app.use(cors({
     credentials: true
 }))
 
-app.use(express.json({limit: "16kb"}));
-app.use(express.urlencoded({ extended: true, limit: "16kb" }))
+app.use(express.json({limit: "50mb"}));
+app.use(express.urlencoded({ extended: true, limit: "50mb" }))
 app.use(express.static("public"))
 
 app.use(cookieParser())
@@ -35,7 +35,7 @@ app.use("/api/v1/comments", commentRouter)
 app.use("/api/v1/dashboard", dashboardRouter)
 app.use("/api/v1/likes", likeRouter)
 app.use("/api/v1/playlist", playlistRouter)
-app.use("/api/v1/tweets", postRouter)
+app.use("/api/v1/posts", postRouter)
 app.use("/api/v1/subscriptions", subscriptionRouter)
 app.use("/api/v1/users", userRouter)
 app.use("/api/v1/videos", videoRouter)

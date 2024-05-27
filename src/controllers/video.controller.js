@@ -129,6 +129,7 @@ const publishAVideo = asyncHandler(async (req, res) => {
         owner: req.user?._id,
         isPublished: false
     })
+    // console.log("video: ", video);
 
     const videoUploaded = await Video.findById(video._id)
     if (!videoUploaded) {

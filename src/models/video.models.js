@@ -2,15 +2,39 @@ import mongoose, { Schema } from 'mongoose';
 import  mongooseAggregatePaginate from 'mongoose-aggregate-paginate-v2';
 
 
+
+
+const videoFileSchema = new Schema({
+    url: {
+        type: String,
+        required: true
+    },
+    public_id: {
+        type: String,
+        required: true
+    }
+})
+
+const thumbnailSchema = new Schema({
+    url: {
+        type: String,
+        required: true
+    },
+    public_id: {
+        type: String,
+        required: true
+    }
+})
+
 // create a schema for videos
 const videoSchema = new Schema(
     {
         videoFile: {
-            type: String,
+            type: videoFileSchema,
             required: true
         },
         thumbnail: {
-            type: String,
+            type: thumbnailSchema,
             required: true
         },
         title: {
