@@ -1,3 +1,4 @@
+import mongoose, { isValidObjectId } from "mongoose"
 import { Comment } from "../models/comment.models.js"
 import { asyncHandler } from "../utils/asyncHandler.js"
 import { ApiError } from "../utils/ApiError.js"
@@ -17,7 +18,7 @@ const getVideoComments = asyncHandler(async (req, res) => {
     const comments = Comment.aggregate([
         {
             $match: {
-                video: new mongoose.Types.createFromHexString(videoId)
+                video: videoId
             }
         }, {
             $lookup: {
