@@ -86,7 +86,6 @@ const addComment = asyncHandler(async (req, res) => {
     
     const { videoId } = req.params
     const { content } = req.body
-
     if (!content) {
         throw new ApiError(400, "Content is required")
     }
@@ -153,6 +152,7 @@ const deleteComment = asyncHandler(async (req, res) => {
     
     const { commentId } = req.params
     const comment = await Comment.findById(commentId)
+    console.log(comment, commentId)
 
     if (!comment) {
         throw new ApiError(404, "Comment not found")
@@ -164,10 +164,14 @@ const deleteComment = asyncHandler(async (req, res) => {
 
     await Comment.findByIdAndDelete(commentId)
 
-    await Like.deleteMany({
-        comment: commentId,
-        likedBy: req.user
-    })
+    try {
+        await Like.deleteMany({
+            comment: commentId,
+            likedBy: req.user
+        })
+    } catch (error){
+        console.log("Error: ", (error))
+    }
 
     return res
         .status(200)
