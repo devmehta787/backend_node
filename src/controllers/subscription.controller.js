@@ -1,4 +1,4 @@
-import { isValidObjectId } from "mongoose"
+import mongoose, { isValidObjectId } from "mongoose"
 import { User } from "../models/users.models.js"
 import { Subscription } from "../models/subscription.models.js"
 import { asyncHandler } from "../utils/asyncHandler.js"
@@ -17,6 +17,7 @@ const toggleSubscription = asyncHandler(async (req, res) => {
         subscriber: req.user?._id,
         channel: channelId
     })
+    console.log(channelId, isSubscribed, req.user._id)
     if (isSubscribed) {
         await Subscription.findByIdAndDelete(isSubscribed?._id)
 
@@ -36,17 +37,19 @@ const toggleSubscription = asyncHandler(async (req, res) => {
 })
 
 // controller to return subscriber list of a channel
-const getUserChannelSubscribers = asyncHandler(async (req, res) => {
-    const { channelId } = req.params
-    if (!isValidObjectId(channelId)) {
+const getChannelSubscribers = asyncHandler(async (req, res) => {
+    console.log("req: ", req.params)
+    const { subscriberId } = req.params
+    console.log("subscriberId: ",subscriberId)
+    if (!isValidObjectId(subscriberId)) {
         throw new ApiError(400, "Invalid channelId")
     }
 
-    channelId = new mongoose.Types.ObjectId(channelId)
+    subscriberId = new mongoose.Types.ObjectId(subscriberId)
     const subscribers = await Subscription.aggregate([
         {
             $match: {
-                channel: channelId,
+                channel: subscriberId,
             }
         }, {
             $lookup: {
@@ -107,11 +110,13 @@ const getUserChannelSubscribers = asyncHandler(async (req, res) => {
 
 // controller to return channel list to which user has subscribed
 const getSubscribedChannels = asyncHandler(async (req, res) => {
-    const { subscriberId } = req.params
+    const { channelId } = req.params
+    console.log(req.params)
+    console.log(channelId)
     const subscribedChannels = await Subscription.aggregate([
         {
             $match: {
-                subscriber: new mongoose.Types.ObjectId(subscriberId)
+                subscriber: new mongoose.Types.ObjectId(channelId)
             }
         }, {
             $lookup: {
@@ -169,6 +174,6 @@ const getSubscribedChannels = asyncHandler(async (req, res) => {
 
 export {
     toggleSubscription,
-    getUserChannelSubscribers,
+    getChannelSubscribers,
     getSubscribedChannels
 }
